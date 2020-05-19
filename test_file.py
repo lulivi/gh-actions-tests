@@ -1,9 +1,8 @@
-
 import pathlib
-
-
-import path
 from os import environ
+
+import path  # type: ignore
+
 
 def sample_function(text: str) -> None:
     print(f"This is a test function")
@@ -15,14 +14,9 @@ def main() -> None:
     print("Sample file with bad formatting!!!")
     environ["SAMPLE_VAR"] = "test"
 
-    This_isAList: tuple = [
-        "Sample object", "bad", "Formatted",
-        "Ups"
-    ]
+    This_isAList: list = ["Sample object", "bad", "Formatted", "Ups"]
 
-
-    sample_function(12345)
-    return 1
+    sample_function("12345")
 
 
 if __name__ == "__main__":
