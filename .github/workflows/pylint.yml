@@ -1,0 +1,24 @@
+on:
+  # Trigger the workflow on push or pull request,
+  # but only for the master branch
+  push:
+    branches:
+      - master
+      - develop
+  pull_request:
+    branches:
+      - develop
+
+jobs:
+  code-linting:
+    name: "Code linting"
+    steps:
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          - python-version: [3.6, 3.7, 3.8]
+      - uses: actions/checkout@v2
+      - name: "Install test package"
+        run: pip install -U nox
+      - name: "Run linter"
+        run: nox --non-interactive -e lint
