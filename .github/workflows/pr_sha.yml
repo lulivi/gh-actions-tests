@@ -1,0 +1,38 @@
+defaults:
+  run:
+    shell: bash
+
+on: push
+
+jobs:
+  lint:
+    runs-on: ubuntu-18.04
+    name: "Code and documentation linting"
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+      - name: Set up Ruby
+        uses: actions/setup-ruby@v1
+        with:
+          ruby-version: 2.6
+      - name: Install necessary tools
+        run: |
+          sudo apt install -y clang-format-9
+          gem install mdl -v 0.9.0
+          pip install black
+      - name: Perform linting
+        working-directory: ${{ github.workspace }}
+        run: |
+          clang-format-9 --version
+          mdl --version
+          black --version
+          echo "Current commit (GITHUB_SHA): $GITHUB_SHA"
+          echo "Current triggering branch (GITHUB_REF): $GITHUB_REF"
+          echo "Commit of triggering branch (GITHUB_REF):"
+          git rev-parse $GITHUB_REF
+          echo "Current head branch (GITHUB_HEAD_REF): $GITHUB_HEAD_REF"
+          echo "Commit of head branch (GITHUB_HEAD_REF):"
+          git rev-parse $GITHUB_HEAD_REF
